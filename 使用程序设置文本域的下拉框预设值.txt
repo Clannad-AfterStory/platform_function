@@ -1,0 +1,15 @@
+FIELD
+{
+    .表格id.域名;
+}
+VAR
+{
+    Struct0 变量1;
+}
+SERVER
+{
+    变量1.FormID = 表格id;
+    变量1.FieldName = "域名";
+    变量1.sVALUE = "预设值字符串a;预设值字符串b;预设值字符串c;...;";
+    FW_FieldPropertySet_w(表格id, 域名, 变量1);
+}
