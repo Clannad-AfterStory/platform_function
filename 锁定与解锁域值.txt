@@ -1,0 +1,6 @@
+int ret=FW_SetValueStatus_w(int FormID, int Record, String FieldName, 1);//该域值在当前记录号被锁定.
+
+int ret=FW_SetValueStatus_w(int FormID, int Record, String FieldName, 0);//该域值在当前记录号被解锁.
+
+ret == 0成功，否则失败;
+如FieldName==ALL,则代表所有的动态域.

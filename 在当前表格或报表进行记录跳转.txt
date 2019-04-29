@@ -1,0 +1,10 @@
+int ret = FW_ToolBarFirstPage();//在当前表格开启第一个记录
+int ret = FW_ToolBarLastPage();//在当前表格开启最后一个记录
+
+int ret = FW_ToolBarPrevPage();//在当前表格开启上一个记录
+int ret = FW_ToolBarNextPage();//在当前表格开启下一个记录
+
+int ret = FW_ToolBarGotoPage(int record);//在当前表格开启指定记录
+
+int ret=FW_ToolBarPrevPage(-1);//在当前报表开启上一页
+int ret=FW_ToolBarNextPage(-1);//在当前报表开启下一页
