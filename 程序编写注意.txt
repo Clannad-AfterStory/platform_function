@@ -1,0 +1,23 @@
+// @
+// @Author: LRT
+// @Date: 2019-07-17 00:24:56
+// @LastEditTime: 2019-11-14 15:58:10
+// @LastEditors: LRT
+// @Description: 
+// @FilePath: d:\OneDrive\FW\霞辉\霞辉系统\平台功能\程序编写注意.txt
+// @
+
+1、单独的else后大括号{}要从下一行开始，否则程序无法执行下去；
+2、第一个CLIENT{}后必须要有SERVER{}交互，不能直接再跟一个CLIENT{},例如：
+CLIENT
+{
+    ***********;
+    Goto(1);
+}
+CLIENT
+{
+}
+SERVER
+{
+}
+这中流程是走不到第一个SERVER{}去执行程序的

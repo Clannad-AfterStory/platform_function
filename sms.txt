@@ -1,0 +1,135 @@
+FIELD
+{
+    .formID.Field1_接手人手机号;
+    .formID.Field2_提示信息;
+    .formID.Field3_有效用户名;
+    .formID.Field4_有效密码;
+}
+VAR
+{
+    String phone, tips, sms_url, available_username, available_pwd;
+    Struct0 st0_response;
+}
+SERVER
+{
+    sms_url = "http://sms.ue35.net/sms/interface/sendmess.htm";
+    phone = FW_GetValue(formID, Field1_接收人手机号, page); 
+    tips = FW_GetValue(formID, Field2_提示信息, page);   //提示信息（信息内容中目前必须带有 “验证码” 三个字才能发送成功！）
+    available_username = FW_GetValue(formID, Field3_有效用户名, page);
+    available_pwd = FW_GetValue(formID, Field4_有效密码, page);
+    "username=xmxj&userpwd=188137&mobiles=" + phone;
+    "&content=" + tips;
+    post = "username=" + available_username + "&userpwd=" + available_pwd + "&mobiles=" + phone + "&content=" + tips;
+    st0_response = FW_XML_Test(sms_url, 80, post, 1);
+    result = st0_response.sVALUE;
+    return(GotoClient);
+}
+CLIENT
+{
+    if(st0_response.mError == 0)
+    {
+        FW_Dialog1(result);
+    }else
+    {
+        FW_Dialog1(平台发起远程服务器测试失败！);
+    }
+}
+
+
+FIELD
+{
+    .1145.部门;
+    .1145.社区;
+}
+VAR
+{
+    int i, j;
+    String result, url, post, city, data, weather, current_tem, note;
+    Struct0 st0_response, st0_data, st0_forcast, st0_weather;
+}
+SERVER
+{
+    url = "https://www.apiopen.top/weatherApi";
+    post = "city=&#x53A6&#x95E8";
+    st0_response = FW_XML_Test(url, 80, post, 0);
+    result = st0_response.sVALUE;
+    st0_data.Json = st0_response.Json[2].value;
+    city = st0_data.Json[1].value;
+    st0_forcast.Json = st0_data.Json[3].value;
+    for(i=0;i<3;i++)
+    {
+        st0_weather.Json = st0_forcast.Json[i];
+        for(j=0;j<6;j++)
+        {
+            if(j == 2)
+            {
+                continue;
+            }
+            data = st0_weather.Json[j].value;
+            if(j < 5)
+            {
+                data = data + "，";
+            }
+            weather = weather + data;
+        }
+        weather = weather + "
+        ";
+    }
+    note = st0_data.Json[4].value;
+    current_tem = st0_data.Json[5].value;
+    weather = city + "
+    " + weather + "
+    当前温度：" + current_tem + "
+    感冒提醒：" + note;
+    FW_Dialog1(weather);
+    FW_SetValue_w(1145, 社区, 1, result);
+    FW_SetValue_w(1145, 部门, 1, weather);
+}
+
+FIELD
+{
+    .1145.部门;
+    .1145.社区;
+}
+VAR
+{
+    int i, j;
+    String result, url, post, city, data, weather, current_tem, note, cardno,dtype,appkey;
+    Struct0 st0_response, st0_data, st0_forcast, st0_weather;
+}
+SERVER
+{
+    url = "http://apis.juhe.cn/idcard/index";
+    cardno = "350321199512114212";
+    dtype = "";
+    appkey = "3e7ffb8601027bfb4fed113a2dacb719";
+    //url = url + "cardno=" + cardno + "&dtype=" +　dtype + "&key=" + appkey;
+    post = "key=" + appkey + "&cardno=" + cardno;
+    st0_response = FW_XML_Test(url, 80, post, 1);
+    result = st0_response.sVALUE;
+    FW_Dialog1(result);
+}
+
+FIELD
+{
+    .1145.部门;
+    .1145.社区;
+}
+VAR
+{
+    int i, j;
+    String result, url, post, data, weather, current_tem, note, province, city, key;
+    Struct0 st0_response, st0_data, st0_forcast, st0_weather;
+}
+SERVER
+{
+    url = "http://apis.juhe.cn/simpleWeather/query";
+    //province = "福建";
+    city = "厦门";
+    //county = "集美区";
+    key = "2d080e86ebe6e32d511a2ff395859ee2";
+    post = "city=" + city + "&key=" + key;
+    st0_response = FW_XML_Test(url, 80, post, 1);
+    result = st0_response.sVALUE;
+    FW_Dialog1(result);
+}

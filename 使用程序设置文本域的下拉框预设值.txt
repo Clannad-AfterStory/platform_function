@@ -8,8 +8,22 @@ VAR
 }
 SERVER
 {
-    变量1.FormID = 表格id;
-    变量1.FieldName = "域名";
+    //变量1.FormID = 表格id;(可省略)
+    //变量1.FieldName = "域名";(可省略)
     变量1.sVALUE = "预设值字符串a;预设值字符串b;预设值字符串c;...;";
     FW_FieldPropertySet_w(表格id, 域名, 变量1);
+}
+
+FIELD
+{
+    .1087.GroupID;
+}
+VAR
+{
+    Struct0 st0_groupID;
+}
+SERVER
+{
+    st0_groupID.sVALUE = "一片区;二片区;三片区;四片区;五片区;六片区;七片区;专项项目组;助老员项目组;行政与人事部;财务部;品牌与宣传部;";
+    FW_FieldPropertySet_w(1087, GroupID, st0_groupID);
 }
